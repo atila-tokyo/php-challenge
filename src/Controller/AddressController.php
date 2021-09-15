@@ -55,7 +55,7 @@ class AddressController
                 $viewData = [
                     'input' => $input,
                     'errors' => true,
-                    'errorMessage' => "Server Error."
+                    'errorMessage' => "Erro no servidor."
                 ];
                 view('home', $viewData);
                 return true;
