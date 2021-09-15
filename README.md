@@ -25,7 +25,7 @@ Configure the database on the .env file
 Script for table creation
 
 `CREATE DATABASE address CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`<br>
-`CREATE USER 'address'@'%' identified by 'address';`<br>
+`CREATE USER '<username>'@'%' identified by '<password>';`<br>
 `GRANT ALL on address.* to 'address'@'localhost';`<br>
 
  `CREATE TABLE address (`<br>
