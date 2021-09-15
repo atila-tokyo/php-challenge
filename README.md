@@ -16,8 +16,8 @@ Make sure to create a database of your preference in order to store the informat
 
 Configure the database on the .env file
 
-`DB_HOST=***.*.*.*`<br>
-`DB_PORT=***`<br>
+`DB_HOST=<ip_address>`<br>
+`DB_PORT=<port_number>`<br>
 `DB_DATABASE=<dbname>`<br>
 `DB_USERNAME=<username>`<br>
 `DB_PASSWORD=<password>`<br>
