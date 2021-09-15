@@ -1,60 +1,85 @@
 <?php
 namespace Src\Controller;
 
+use Exception;
 use Src\Service\AddressService;
+use Src\Exception\BusinessException;
 
-class AddressController {
-
-
-    private $__requestMethod;
-    private $__address;
+class AddressController 
+{
+    private $__errors = null;
+    private $__errorMessage = null;
 
     private $__addressService;
 
-    public function __construct($requestMethod, $address)
+    public function __construct()
     {
-        $this->__requestMethod = $requestMethod;
-        $this->__address = $address;
-
         $this->__addressService = new AddressService();
     }
 
-    public function ProcessRequest()
-    {
-        try{
-            switch ($this->requestMethod) {
-                case 'GET':
-                    $result = $this->__addressService->get__address($this__address);
-                    $response['status_code_reader'] = 'HTTP/1.1 200 OK';
-                    $response['body'] = json_encode($result);
-                    break;
-                default:
-                    $response = $this->_notFoundResponse();
-                    break;
+   
+    public function handleSearch()
+    {        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $input = [
+                'cep' => $_POST['cep']
+            ];
+
+            $this->validateSearchForm($input);
+            if ($this->__errors) {
+                $viewData = [
+                    'input' => $input,
+                    'errors' => $this->__errors,
+                    'errorMessage' => $this->__errorMessage
+                ];
+                view('home', $viewData);
+                return true;
             }
-        } catch (BusinessException $e){
-            $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
-            $response['body'] = json_encode(
-                [
-                'error' => $e
-                ]
-            );            
-        } catch (Exception $e){
-            $response['status_code_header'] = 'HTTP/1.1 500 Internal Server Error';
-            $response['body'] = json_encode(
-                [
-                'error' => $e
-                ]
-            );
+            try{
+                $result = $this->__addressService->getAddress($input);
+                $viewData = [
+                    'input' => $input,
+                    'result' => $result
+                ];
+                view('home', $viewData);                
+            } catch (BusinessException $e){
+                $viewData = [
+                    'input' => $input,
+                    'errors' => true,
+                    'errorMessage' => $e->getMessage()
+                ];
+                view('home', $viewData);
+                return true;                          
+            } catch (Exception $e){
+                $viewData = [
+                    'input' => $input,
+                    'errors' => true,
+                    'errorMessage' => "Server Error."
+                ];
+                view('home', $viewData);
+                return true;
+                
+            }
+            return true;
         }
-        header($response['status_code_header']);
-
+        header('HTTP/1.0 405 Method Not Allowed');
+        die();
     }
 
-    private function _notFoundResponse()
+    private function validateSearchForm($input)
     {
-        $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
-        $response['body'] = null;
-        return $response;
+        $errorMessage = '';
+        $errors = false;
+
+        // validate field lengths
+        if (empty($input['cep'])) {
+            $errorMessage .= "<br>'CEP' é necessário!";
+            $errors = true;            
+        }        
+
+        $this->__errors = $errors;
+        $this->__errorMessage = $errorMessage;
     }
+    
 }

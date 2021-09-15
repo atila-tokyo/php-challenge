@@ -3,7 +3,7 @@ namespace Src\Service;
 
 use GuzzleHttp\Client;
 use Src\Repository\AddressRepository;
-use Src\Exception;
+use Src\Exception\BusinessException;
 
 class AddressService
 {
@@ -12,7 +12,7 @@ class AddressService
 
     public function __construct()
     {
-        $this->__repository = new AddressRepository($dbConnection);
+        $this->__repository = new AddressRepository();
     }
 
     public function findAll()
@@ -25,24 +25,25 @@ class AddressService
         return $this->__repository->find($id);
     }
 
-    public function getAddress($address)
-    {
-        $results = $this->findAdress();
+    public function getAddress($input)
+    {        
+        $results = $this->__repository->findAddress($input);
+        
         if (empty($results)) {
-            $response = $this->_callViaCepAPI($address);
-            $results = $response;
-            foreach ($item as $response) {
-                $this->insert($item);
-            }
-        }
-        return $results;
+            $cep = $input['cep'];
+            $response = $this->_callViaCepAPI($cep);            
+            $this->insert($response);
+            $results = $this->__repository->findAddress($input);                        
+            
+        } 
+        return $results[0];
     }
 
     public function insert(Array $input)
     {
         if (! $this->_validateAddress($input)) {
             throw new BusinessException('Missing required fields.');
-        }
+        }        
         $this->__repository->insert($input);
     }
 
@@ -72,17 +73,16 @@ class AddressService
     {
         if (! isset($input['cep'])) {
             return false;
-        }
-        if (! isset($input['logradouro'])) {
-            return false;
-        }
+        }        
         return true;
     }
 
-    private function _callViaCepAPI($address)
-    {
+    private function _callViaCepAPI($data)
+    {        
+        $cep = str_replace(array("-"), "", $data);   
+        
         $client = new Client(['base_uri' => 'https://viacep.com.br/']);
-        $response = $client->request('GET', "/ws/$address/xml");
+        $response = $client->request('GET', "/ws/$cep/xml");
         $body = $response->getBody()->getContents();
         
         $encode_response = json_encode(simplexml_load_string($body));   

@@ -23,7 +23,7 @@ if ($data && isset($data['errors'])) {
 }
 ?>
 <div class="container row g-3 align-items-center">
-    <form method="GET" action="/">
+    <form method="post" action="/">
         <div class="col-auto field">
             <label for="cepNumber" class="col-form-label">Digite o CEP que deseja pesquisar</label>
             <div class="col-auto control">
@@ -37,7 +37,47 @@ if ($data && isset($data['errors'])) {
                 Digite apenas CEPs válidos.
             </span>
         </div>
+        <input type="hidden" name="command" value="search">
         <div class="control">
-            <button class="button is-link">Search</button>
+            <button class="button">Pesquisar</button>
         </div>
-        </form>
+    </form>
+</div>
+
+<?php
+if ($data && isset($data['result'])) {
+?>
+    <table>
+        <tr>
+            <td>cep</td>
+            <td>logradouro</td>
+            <td>complemento</td>
+            <td>bairro</td>
+            <td>localidade</td>
+            <td>uf</td>
+            <td>ibge</td>
+            <td>gia</td>
+            <td>ddd</td>
+            <td>siafi</td>
+        </tr>
+        <tr>
+            <td><?php echo $data['result']['cep']; ?></td>
+            <td><?php echo $data['result']['logradouro']; ?></td>
+            <td><?php echo $data['result']['complemento']; ?></td>
+            <td><?php echo $data['result']['bairro']; ?></td>
+            <td><?php echo $data['result']['localidade']; ?></td>
+            <td><?php echo $data['result']['uf']; ?></td>
+            <td><?php echo $data['result']['ibge']; ?></td>
+            <td><?php echo $data['result']['gia']; ?></td>
+            <td><?php echo $data['result']['ddd']; ?></td>
+            <td><?php echo $data['result']['siafi']; ?></td>
+        </tr>
+    </table>
+<?php
+}
+?>
+
+
+<?php view('footer'); ?>
+
+</html>

@@ -1,32 +1,25 @@
 <?php
-namespace Src\Persistence;
+namespace Src\Exception;
 
-class DatabaseConnector
+use Exception;
+/**
+ * Define a custom exception class
+ */
+class BusinessException extends Exception
 {
-
-    private $__dbConnection = null;
-
-    public function __construct()
-    {        
-        $host = getenv('DB_HOST');
-        $port = getenv('DB_PORT');
-        $db   = getenv('DB_DATABASE');
-        $user = getenv('DB_USERNAME');
-        $pass = getenv('DB_PASSWORD');
-
-        try {
-            $this->__dbConnection = new \PDO(
-                "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
-                $user,
-                $pass
-            );
-        } catch (\PDOException $e) {            
-            exit($e->getMessage());
-        }
+    
+    public function __construct($message, $code = 0, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+ 
+    public function __toString()
+    {
+        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 
-    public function getConnection()
+    public function customFunction()
     {
-        return $this->__dbConnection;
+        echo "A custom function for this type of exception\n";
     }
 }

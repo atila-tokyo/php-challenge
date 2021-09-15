@@ -1,8 +1,8 @@
 <?php
-require 'vendor\autoload.php';
+require 'vendor/autoload.php';
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createUnsafeImutable(__DIR__);
+$dotenv = Dotenv::createUnsafeImmutable(__DIR__);
 $dotenv->load();
 
 function view($title, $data = null)
@@ -11,6 +11,6 @@ function view($title, $data = null)
     if (file_exists($filename)) {
         include($filename);
     } else {
-        throw new Exception('View' . $title . 'not found!');
+        throw new Exception('View' . $title . 'não encontrado!');
     }
 }
