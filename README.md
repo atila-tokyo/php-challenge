@@ -23,13 +23,13 @@ Configure the database on the .env file
  DB_PASSWORD=*****`
 
 Script for table creation
-`
-CREATE DATABASE address CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'address'@'%' identified by 'address';
-GRANT ALL on address.* to 'address'@'%';
+
+`CREATE DATABASE address CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ CREATE USER 'address'@'%' identified by 'address';
+ GRANT ALL on address.* to 'address'@'%';
 
 
-CREATE TABLE address (
+ CREATE TABLE address (
     id INT NOT NULL AUTO_INCREMENT,
     cep VARCHAR(255) NOT NULL,
     logradouro VARCHAR(255),    
@@ -42,7 +42,6 @@ CREATE TABLE address (
     ddd VARCHAR(255),    
     siafi VARCHAR(255),    
     PRIMARY KEY (id)    
-) ENGINE=INNODB;
-`
+) ENGINE=INNODB;`
 Now you can test the app! Use the command  `php -S 127.0.0.1:8000 -t public` to  run a PHP server on `http://localhost:8000/`
 
