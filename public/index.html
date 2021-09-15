@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-    
+    <Navbar class="navbar navbar-dark bg-dark">Body</Navbar>
+    <div class="container row g-3 align-items-center">
+        <form method="GET" action="">
+            <div class="col-auto">
+                <label for="cepNumber" class="col-form-label">Digite o CEP que deseja pesquisar</label>
+            </div>
+            <div class="col-auto">
+                <input type="integer" name="cep" id="cepNumber" class="form-control" placeholder="Número do CEP" aria-describedby="cepNumberToSearch">
+            </div>
+            <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text">
+                    Digite apenas CEPs válidos.
+                </span>
+            </div>
+        </form>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm text-center">Pesquisar</button>
 </body>
 </html>
