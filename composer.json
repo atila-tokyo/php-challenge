@@ -1,0 +1,22 @@
+{
+    "name": "atilalima/php-challenge",
+    "description": "Challenge em php usando cep api",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "\"^3.6\""
+    },
+    "autoload": {
+        "psr-4": {
+            "Atilalima\\PhpChallenge\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "atila-tokyo",
+            "email": "atilamanager@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "guzzlehttp/guzzle": "^7.3"
+    }
+}
