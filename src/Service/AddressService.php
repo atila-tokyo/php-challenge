@@ -42,7 +42,7 @@ class AddressService
     public function insert(Array $input)
     {
         if (! $this->_validateAddress($input)) {
-            throw new BusinessException('Missing required fields.');
+            throw new BusinessException('Existem campos incompletos.');
         }        
         $this->__repository->insert($input);
     }
@@ -51,11 +51,11 @@ class AddressService
     {
         $result = $this->__repository->find($id);
         if (! $result) {
-            throw new BusinessException('Address not found.');
+            throw new BusinessException('Endereço não encontrado.');
         }
         $input = (array) json_decode(file_get_contents('php://input'), true);
         if (! $this->_validateAddress($input)) {
-            throw new BusinessException('Missing required fields.');
+            throw new BusinessException('Existem campos incompletos.');
         }
         $this->__repository->update($id, $input);
     }
@@ -64,7 +64,7 @@ class AddressService
     {
         $result = $this->addressService->find($id);
         if (! $result) {
-            throw new BusinessException('Address not found.');
+            throw new BusinessException('Endereço não encontrado.');
         }
         $this->__repository->delete($id);
     }
